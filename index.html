@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f3ec">
+  <meta name="description" content="Big categories. Little screen. A free, unofficial card companion for your physical letter-stacking game.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Stack Deck — one more round</title>
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <svg class="svg-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M20 12H5m6-6-6 6 6 6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h7m4 0h5M4 17h3m4 0h9M11 4v6M7 14v6"/></symbol>
+    <symbol id="i-table" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="3"/><path d="M4 12h16m-10-5 2 2 2-2m-4 10 2-2 2 2"/></symbol>
+    <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="m17 3 4 4-4 4m0 2 4 4-4 4M3 7h3c5 0 7 10 12 10h3M3 17h3c2 0 3-1.5 4-3m4-4c1-2 2-3 4-3h3"/></symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24"><path d="M9 4H4v5m11-5h5v5M4 15v5h5m6 0h5v-5"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 3 2.6 5.6 6.1.8-4.5 4.2 1.1 6.1-5.3-3-5.3 3 1.1-6.1L3.3 9.4l6.1-.8Z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+  </svg>
+
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand" aria-label="Stack Deck"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span>stack<span class="brand-light">deck</span><span class="brand-period">.</span></span></div>
+      <button type="button" class="button deck-button" id="settings-open" aria-haspopup="dialog"><svg class="icon"><use href="#i-sliders"/></svg><span>Your deck</span></button>
+    </header>
+
+    <main class="play-area" id="main">
+      <div class="prelude"><span class="live-dot" aria-hidden="true"></span><span id="deck-summary">A little screen. A lot of answers.</span><button type="button" class="text-button" id="help-open" aria-haspopup="dialog">How to play <span aria-hidden="true">↗</span></button></div>
+
+      <div class="card-stack" id="card-stack">
+        <div class="stack-layer layer-back" aria-hidden="true"></div>
+        <div class="stack-layer layer-front" aria-hidden="true"></div>
+        <button type="button" class="category-card" id="category-card" data-pack="everyday" disabled aria-label="Loading category cards">
+          <span class="card-top"><span class="pack-label" id="pack-label"><span class="pack-dot" aria-hidden="true"></span><span id="pack-name">Everyday life</span></span><span class="card-count" id="card-count">…</span></span>
+          <span class="card-copy" id="card-copy">
+            <span class="opposite-copy" aria-hidden="true"><span class="eyebrow">Your category</span><span class="opposite-prompt" id="opposite-prompt"></span></span>
+            <span class="table-divider" aria-hidden="true"><span>stack deck</span></span>
+            <span class="main-copy"><span class="eyebrow" id="card-eyebrow">Your category</span><span class="prompt" id="prompt">One more<br>round?</span><span class="end-note" id="end-note" hidden></span></span>
+          </span>
+          <span class="card-bottom"><span class="difficulty" id="difficulty">Say it. Stack it.</span><span class="advance-label" id="advance-label">Tap for the next category <svg class="icon"><use href="#i-arrow"/></svg></span></span>
+        </button>
+      </div>
+
+      <nav class="play-controls" aria-label="Card controls">
+        <button type="button" class="button back-button" id="back" disabled><svg class="icon"><use href="#i-back"/></svg><span>Back</span></button>
+        <div class="secondary-controls">
+          <button type="button" class="button view-button" id="table-mode" aria-pressed="false" title="Show the category to both sides of the table"><svg class="icon"><use href="#i-table"/></svg><span>Table view</span></button>
+          <button type="button" class="button icon-button" id="fullscreen" aria-label="Enter full screen" title="Full screen" hidden><svg class="icon"><use href="#i-expand"/></svg></button>
+        </div>
+      </nav>
+    </main>
+
+    <footer class="footer"><span>Good company. Questionable answers.</span><span class="connection" id="offline-status" aria-live="polite">Made for game night</span></footer>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+  <p class="sr-only" id="announcement" role="status" aria-live="polite" aria-atomic="true"></p>
+
+  <dialog id="settings-dialog" class="sheet" aria-labelledby="settings-title">
+    <form id="settings-form">
+      <header class="sheet-header"><div><span class="eyebrow">Make it your kind of night</span><h1 id="settings-title">Your deck<span>.</span></h1></div><button type="button" class="button close-button" data-close="settings-dialog" aria-label="Close deck settings"><svg class="icon"><use href="#i-close"/></svg></button></header>
+      <div class="sheet-content">
+        <fieldset class="pack-fieldset"><legend>Pick your packs</legend><p class="field-note">Mix a few, or play them all.</p><div id="pack-options" class="pack-options"></div></fieldset>
+        <label class="setting-row adult-row"><span><span class="setting-title">After dark <span class="age-badge">18+</span></span><span class="setting-description">Dating, hangovers &amp; cheeky confessions.<br>Original adult party prompts; off by default.</span></span><input id="adult-toggle" type="checkbox" role="switch"><span class="switch" aria-hidden="true"></span></label>
+        <label class="setting-row"><span><span class="setting-title">Include tricky categories</span><span class="setting-description">Narrower topics, fewer easy answers.</span></span><input id="challenge-toggle" type="checkbox" role="switch" checked><span class="switch" aria-hidden="true"></span></label>
+        <label class="setting-row"><span><span class="setting-title">Keep the screen awake</span><span class="setting-description" id="awake-note">While the app is open and your phone allows it.</span></span><input id="awake-toggle" type="checkbox" role="switch"><span class="switch" aria-hidden="true"></span></label>
+        <div class="settings-tip"><svg class="icon"><use href="#i-table"/></svg><p>Phone in the middle? <strong>Table view</strong> turns a second copy towards the other side.</p></div>
+      </div>
+      <footer class="sheet-footer"><p id="selection-summary" aria-live="polite">Loading your cards…</p><button class="primary-button" id="settings-apply" type="submit">Let’s play <svg class="icon"><use href="#i-arrow"/></svg></button><button type="button" id="reshuffle" class="text-button shuffle-button"><svg class="icon"><use href="#i-shuffle"/></svg> Start a freshly shuffled deck</button><p class="small-note">Changing packs or difficulty starts a fresh deck. Screen settings keep your place.</p></footer>
+    </form>
+  </dialog>
+
+  <dialog id="help-dialog" class="sheet help-sheet" aria-labelledby="help-title">
+    <header class="sheet-header"><div><span class="eyebrow">Less setup. More stacking.</span><h1 id="help-title">Ready, set,<br>stack<span>.</span></h1></div><button type="button" class="button close-button" data-close="help-dialog" aria-label="Close how to play"><svg class="icon"><use href="#i-close"/></svg></button></header>
+    <div class="sheet-content help-content">
+      <ol class="how-to"><li><span class="step-number">01</span><div><h2>Put your phone on the table.</h2><p>The big text is your category for the round. Turn on Table view if people are sitting opposite.</p></div></li><li><span class="step-number">02</span><div><h2>Think of an answer. Stack its letter.</h2><p>Use your physical letter pieces and follow your game’s rules. Leave the category on screen while everyone plays.</p></div></li><li><span class="step-number">03</span><div><h2>Ready for a new category? Tap.</h2><p>Tap the card to move on, or use Back to undo a tap. Cards won’t repeat until you start a fresh deck.</p></div></li></ol>
+      <section class="help-note"><h2>A few nice-to-knows</h2><p>Your deck and place are saved on this device when browser storage is available. Nothing is sent to a server by the app.</p><p>After the app reports “Ready offline”, you can play without a connection. Add it to your home screen from your browser’s Share or menu button.</p><p>Keyboard: right arrow for the next card; left arrow for Back. Screen-awake and full-screen support depend on your browser.</p></section>
+      <p class="about-note">Stack Deck is an independent, unofficial companion for STACKIT by Lucky Egg. The physical game is still required. Includes your supplied examples and an original expanded catalogue; it is not a reproduction of the official deck. <a href="https://www.luckyegg.co/pages/stack-it-game-preview" target="_blank" rel="noreferrer noopener">Visit Lucky Egg <span aria-hidden="true">↗</span></a></p>
+    </div>
+    <footer class="sheet-footer"><button type="button" class="primary-button" data-close="help-dialog">Got it. Let’s play <svg class="icon"><use href="#i-arrow"/></svg></button></footer>
+  </dialog>
+  <noscript><div class="noscript">Stack Deck needs JavaScript to shuffle and show cards. Please enable JavaScript, then reload.</div></noscript>
+</body>
+</html>
